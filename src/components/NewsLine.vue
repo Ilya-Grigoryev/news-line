@@ -32,7 +32,10 @@
       </v-btn>
       
     </v-card-actions>
-    <div style="color: grey; text-align: right; font-size: 17px;" >{{(new Date(publishedAt)).toLocaleDateString('en-GB')}}</div>
+    <div style="color: grey; text-align: right; font-size: 17px;">
+            {{(new Date(publishedAt)).toLocaleDateString('en-GB')}} 
+            {{publishedAt[11]+publishedAt[12]+publishedAt[13]+publishedAt[14]+publishedAt[15]}}
+    </div>
   </v-card>
   </v-content>
 </v-app>
