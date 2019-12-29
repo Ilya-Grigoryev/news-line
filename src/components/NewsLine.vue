@@ -28,12 +28,11 @@
 
       <v-spacer></v-spacer>
       <v-btn icon @click="like_counter++" v-bind:color="like_counter % 2 == 0 ? 'error' : 'grey'">
-        <v-icon>mdi-heart</v-icon>
+        <v-icon large>mdi-heart</v-icon>
       </v-btn>
-      <v-btn icon>
-        <v-icon>mdi-share-variant</v-icon>
-      </v-btn>
+      
     </v-card-actions>
+    <div style="color: grey; text-align: right; font-size: 17px;" >{{(new Date(publishedAt)).toLocaleDateString('en-GB')}}</div>
   </v-card>
   </v-content>
 </v-app>
@@ -41,7 +40,7 @@
 
 <script>
 export default {
-  props: ['title', 'description', 'urlToImage', 'url'],
+  props: ['title', 'description', 'urlToImage', 'url', 'publishedAt'],
   data: () => ({
     like_counter: 1
   }),

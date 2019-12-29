@@ -85,7 +85,8 @@
         :title="post.title" 
         :description="post.description" 
         :urlToImage="post.urlToImage" 
-        :url="post.url">
+        :url="post.url"
+        :publishedAt="post.publishedAt">
       {{post.author}}</NewsLine>
 
     </v-content>
@@ -137,7 +138,9 @@ export default {
       this.getNewHref()
     },
     getNewHref(){
-      this.lang_href = 'https://newsapi.org/v2/top-headlines?country='+this.lang+'&apiKey=d7f41a32c26b4bbfb596d58b1a54c766'+'&q='+this.inquiry;
+      this.lang_href = 'https://newsapi.org/v2/top-headlines?country='+this.lang+
+              '&apiKey=d7f41a32c26b4bbfb596d58b1a54c766'+'&q='+this.inquiry;
+
       this.getNews()
     }
   },
