@@ -22,20 +22,12 @@
     </v-card-text>
 
     <v-card-actions>
-      <v-btn
-        text
-        color="deep-purple accent-4"
-      >
-        Read
-      </v-btn>
-      <v-btn
-        text
-        color="deep-purple accent-4"
-      >
-        Bookmark
-      </v-btn>
+      <v-btn outlined color="deep-purple accent-4" :href="url">read more about it</v-btn>
+
+      <!-- <v-btn text color="deep-purple accent-4">Bookmark</v-btn> -->
+
       <v-spacer></v-spacer>
-      <v-btn icon>
+      <v-btn icon @click="like_counter++" v-bind:color="like_counter % 2 == 0 ? 'error' : 'grey'">
         <v-icon>mdi-heart</v-icon>
       </v-btn>
       <v-btn icon>
@@ -49,6 +41,9 @@
 
 <script>
 export default {
-  props: ['title', 'description', 'urlToImage'],
+  props: ['title', 'description', 'urlToImage', 'url'],
+  data: () => ({
+    like_counter: 1
+  }),
 }
 </script>

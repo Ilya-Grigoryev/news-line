@@ -1,10 +1,18 @@
 <template>
   <v-app>
     <v-navigation-drawer
+      style="position:fixed; top:0; left:0; overflow-y:scroll;"
       v-model="drawer"
+      
       app
     >
-      <v-list dense>
+      <v-list nav dense>
+
+        <v-list-item-group
+          v-model="group"
+          active-class="deep-purple--text text--accent-4"
+        >
+
         <v-list-item link @click="newLang('us')">
           <v-list-item-content>
             <v-list-item-title>• Ameriсan</v-list-item-title>
@@ -47,8 +55,12 @@
           </v-list-item-content>
         </v-list-item>
 
+        </v-list-item-group>
       </v-list>
     </v-navigation-drawer>
+
+    <v-system-bar color="deep-purple darken-3"></v-system-bar>
+
     <v-app-bar app color="indigo" dark>
 
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
@@ -68,7 +80,13 @@
     </v-app-bar>
     <v-content>
     
-      <NewsLine v-for="post in news" :key="post.title" :title="post.title" :description="post.description" :urlToImage="post.urlToImage" >{{post.author}}</NewsLine>
+      <NewsLine v-for="post in news" 
+        :key="post.title" 
+        :title="post.title" 
+        :description="post.description" 
+        :urlToImage="post.urlToImage" 
+        :url="post.url">
+      {{post.author}}</NewsLine>
 
     </v-content>
     <v-footer color="indigo" app>
@@ -88,13 +106,21 @@ export default {
   },
 
   data: () => ({
-    drawer: null,
     news: [],
     source: '',
     lang_href: '',
     inquiry: '',
     lang: 'us',
+    drawer: null,
+    group: 0,
   }),
+
+  watch: {
+      group () {
+        this.drawer = null
+      },
+    },
+
   methods:{
     newLang(lang){
       this.lang = lang
