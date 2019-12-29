@@ -37,29 +37,30 @@
 
         <v-list-item link @click="newLang('gb')">
           <v-list-item-content>
-            <v-list-item-title>• Great Britain</v-list-item-title>
+            <v-list-item-title>• Great British</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+
+        <v-list-item link @click="newLang('tr')">
+          <v-list-item-content>
+            <v-list-item-title>• Turkish</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
 
       </v-list>
     </v-navigation-drawer>
+    <v-app-bar app color="indigo" dark>
 
-    <v-app-bar
-      app
-      color="indigo"
-      dark
-    >
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
+
       <v-toolbar-title>News</v-toolbar-title>
 
-        
 
-        <v-col cols="12" sm="6" @keyup.enter="Search()">
+        <v-col   md="5" @keyup.enter="Search()">
           <v-text-field
             v-model="inquiry"
-            filled
             label="Enter keyword and press 'Enter'"
-            clearable
+            lined
           ></v-text-field>
         </v-col>
 
