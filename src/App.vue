@@ -1,28 +1,121 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+  <v-app>
+    <v-navigation-drawer
+      v-model="drawer"
+      app
+    >
+      <v-list dense>
+        <v-list-item link @click="newLang('us')">
+          <v-list-item-content>
+            <v-list-item-title>• Ameriсan</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+
+        <v-list-item link @click="newLang('ru')">
+          <v-list-item-content>
+            <v-list-item-title>• Russian</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+
+        <v-list-item link @click="newLang('ua')">
+          <v-list-item-content>
+            <v-list-item-title>• Ukrainian</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+
+        <v-list-item link @click="newLang('de')">
+          <v-list-item-content>
+            <v-list-item-title>• German</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+
+        <v-list-item link @click="newLang('bg')">
+          <v-list-item-content>
+            <v-list-item-title>• Bulgarian</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+
+        <v-list-item link @click="newLang('gb')">
+          <v-list-item-content>
+            <v-list-item-title>• Great Britain</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+
+      </v-list>
+    </v-navigation-drawer>
+
+    <v-app-bar
+      app
+      color="indigo"
+      dark
+    >
+      <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
+      <v-toolbar-title>News</v-toolbar-title>
+
+        
+
+        <v-col cols="12" sm="6" @keyup.enter="Search()">
+          <v-text-field
+            v-model="inquiry"
+            filled
+            label="Enter keyword and press 'Enter'"
+            clearable
+          ></v-text-field>
+        </v-col>
+
+
+    </v-app-bar>
+    <v-content>
+    
+      <NewsLine v-for="post in news" :key="post.title" :title="post.title" :description="post.description" :urlToImage="post.urlToImage" >{{post.author}}</NewsLine>
+
+    </v-content>
+    <v-footer color="indigo" app>
+      <span class="white--text">&copy; 2019</span>
+    </v-footer>
+  </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import NewsLine from './components/NewsLine';
 
 export default {
-  name: 'app',
-  components: {
-    HelloWorld
-  }
-}
-</script>
+  name: 'App',
 
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
+  components: {
+    NewsLine,
+  },
+
+  data: () => ({
+    drawer: null,
+    news: [],
+    source: '',
+    lang_href: '',
+    inquiry: '',
+    lang: 'us',
+  }),
+  methods:{
+    newLang(lang){
+      this.lang = lang
+      this.getNewHref()
+    },
+    getNews(){
+      this.axios.get(this.lang_href)
+      .then((response) => {
+        this.news = response.data.articles
+        console.log(response)
+      })
+    },
+    Search(){
+      this.getNewHref()
+    },
+    getNewHref(){
+      this.lang_href = 'https://newsapi.org/v2/top-headlines?country='+this.lang+'&apiKey=d7f41a32c26b4bbfb596d58b1a54c766'+'&q='+this.inquiry;
+      this.getNews()
+    }
+  },
+  mounted() {
+    this.getNewHref()
+  },
+};
+</script>
