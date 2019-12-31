@@ -8,7 +8,7 @@
       <!-- <v-list-item-avatar src='src/assets/def-avatar.png'></v-list-item-avatar> -->
       <v-list-item-content>
         <v-list-item-title class="headline">{{title}}</v-list-item-title>
-        <v-list-item-subtitle><slot>Anonim</slot></v-list-item-subtitle>
+        <v-list-item-subtitle><slot>Noname</slot></v-list-item-subtitle>
       </v-list-item-content>
     </v-list-item>
 
@@ -27,7 +27,7 @@
       <!-- <v-btn text color="deep-purple accent-4">Bookmark</v-btn> -->
 
       <v-spacer></v-spacer>
-      <v-btn icon @click="like_counter++" v-bind:color="like_counter % 2 == 0 ? 'error' : 'grey'">
+      <v-btn icon @click="$emit('like', index)" :color="color">
         <v-icon large>mdi-heart</v-icon>
       </v-btn>
       
@@ -43,9 +43,8 @@
 
 <script>
 export default {
-  props: ['title', 'description', 'urlToImage', 'url', 'publishedAt'],
+  props: ['title', 'description', 'urlToImage', 'url', 'publishedAt', 'index', 'color'],
   data: () => ({
-    like_counter: 1
   }),
 }
 </script>

@@ -55,6 +55,12 @@
           </v-list-item-content>
         </v-list-item>
 
+        <v-list-item link @click="news = liked_news">
+          <v-list-item-content>
+            <v-list-item-title>Liked (Понравившиеся)</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+
         </v-list-item-group>
       </v-list>
     </v-navigation-drawer>
@@ -68,8 +74,9 @@
       <v-toolbar-title>News</v-toolbar-title>
 
 
-        <v-col   md="5" @keyup.enter="Search()">
+        <v-col md="5" @keyup.enter="Search()">
           <v-text-field
+            name='input'
             v-model="inquiry"
             label="Enter keyword and press 'Enter'"
             lined
@@ -80,14 +87,20 @@
     </v-app-bar>
     <v-content>
     
-      <NewsLine v-for="post in news" 
-        :key="post.title" 
+      <NewsLine v-for="(post, index) in news" 
+        :key="index" 
+
+        :index="index"
+        :name="post.source.name"
         :title="post.title" 
         :description="post.description" 
         :urlToImage="post.urlToImage" 
         :url="post.url"
-        :publishedAt="post.publishedAt">
-      {{post.author}}</NewsLine>
+        :publishedAt="post.publishedAt"
+        :color="getColor(post.publishedAt)"
+
+        @like="addInLikedArr"
+        >{{post.author}}</NewsLine>
 
     </v-content>
     <v-footer color="indigo" app>
@@ -108,6 +121,8 @@ export default {
 
   data: () => ({
     news: [],
+    liked_news: [],
+
     source: '',
     lang_href: '',
     inquiry: '',
@@ -140,8 +155,20 @@ export default {
     getNewHref(){
       this.lang_href = 'https://newsapi.org/v2/top-headlines?country='+this.lang+
               '&apiKey=d7f41a32c26b4bbfb596d58b1a54c766'+'&q='+this.inquiry;
-
       this.getNews()
+    },
+    addInLikedArr(index){
+      if (this.liked_news.indexOf(this.news[index]) == -1) {
+        this.liked_news.push(this.news[index])
+      }else{
+        this.liked_news.splice(this.liked_news.indexOf(this.news[index]),1)
+      }
+    },
+    getColor(time){
+      for(let i=0;i<this.liked_news.length;i++){
+        if (this.liked_news[i].publishedAt == time) return 'red'
+      }
+      return 'grey'
     }
   },
   mounted() {
